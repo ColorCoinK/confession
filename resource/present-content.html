@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+    <title>呈现输入的内容</title>
+    <link rel="stylesheet" href="../plugin/bootstrap-4.5.0/css/bootstrap.min.css">
+    <style>
+        body,
+        html {
+            width: 100%;
+            background-color: black;
+            vertical-align: center;
+        }
+
+        /* 显示的文字内容 */
+        #persent-content {
+            font-size: 17rem;
+            color: white;
+        }
+
+        /* 遮罩样式 */
+        .mask-content {
+            width: 100%;
+            line-height: 3rem;
+            position: absolute;
+            background: rgba(99, 99, 107, 0.2);
+            color: rgba(233, 240, 247, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <a class="mask-content" href="javascript:history.go(-1)">&nbsp;&nbsp;&lt;&nbsp;返回</a>
+    <marquee>
+        <span id="persent-content"></span>
+    </marquee>
+</body>
+<script src="../plugin/jquery/jquery.min.js"></script>
+<script src="../plugin/bootstrap-4.5.0/js/bootstrap.min.js"></script>
+<script>
+    /**
+     * 解析URL 参数,封装为JSON对象
+     */
+    function getParam() {
+        var param = {};
+        var params_url = decodeURI(window.location.search.substr(1));
+        var param_arr = params_url.split("&");
+        for (var i = 0; i < param_arr.length; i++) {
+            var pair = param_arr[i].split("=");
+            param[pair[0]] = pair[1];
+        }
+        return param;
+    }
+</script>
+<script>
+    $(function () {
+        // 默认隐藏遮罩
+        $('.mask-content').css('display', 'none');
+
+        // 获取查询参数
+        let params = getParam();
+        $('#persent-content').html(params.content);
+
+        $('body').on('click', function () {
+
+            // 点击屏幕显示返回上一页
+            $('.mask-content').css('display', 'block');
+
+            // 定时自动隐藏工具条
+            setTimeout(() => {
+                $('.mask-content').css('display', 'none');
+            }, 3000);
+        })
+    });
+</script>
+
+</html>
